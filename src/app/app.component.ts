@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { BaseLayoutComponent } from './core/base-layout/pages/base-layout/base-layout.component';
+import { BaseLayoutComponent } from './shared/layout/base-layout/base-layout.component';
 
 @Component({
   selector: 'app-root',
