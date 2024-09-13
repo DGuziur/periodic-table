@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card class="list-container">
   <mat-form-field>
     <mat-label>Filter</mat-label>
     <input
@@ -26,6 +26,21 @@
     <ng-container matColumnDef="symbol">
       <th mat-header-cell *matHeaderCellDef>Symbol</th>
       <td mat-cell *matCellDef="let element">{{ element.symbol }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td class="list-action-row" mat-cell *matCellDef="let element">
+        <div class="list-action-container">
+          <button mat-button (click)="openDialog()">Edit</button>
+          <button
+            mat-mini-fab
+            aria-label="Example icon button with a delete icon"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

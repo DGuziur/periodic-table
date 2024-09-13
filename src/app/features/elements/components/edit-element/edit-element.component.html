@@ -1,0 +1,19 @@
+<form class="edit-element-form" [formGroup]="elementForm">
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Weight</mat-label>
+    <input matInput formControlName="weight" />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Symbol</mat-label>
+    <input matInput formControlName="symbol" />
+  </mat-form-field>
+
+  <button mat-stroked-button>Save</button>
+  <button mat-stroked-button color="warn">Cancel</button>
+</form>

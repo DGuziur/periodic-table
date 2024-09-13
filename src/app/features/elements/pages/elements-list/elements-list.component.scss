@@ -1,0 +1,15 @@
+.list-container {
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.list-action-container {
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.list-action-row {
+  padding-left: 0;
+}

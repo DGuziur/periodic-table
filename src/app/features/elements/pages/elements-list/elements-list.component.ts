@@ -1,27 +1,49 @@
-import { Component, OnInit } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
+import { Component, inject, OnInit } from '@angular/core';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ELEMENT_DATA } from '../../config/default-elements.config';
 import { FormControl } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { debounceTime } from 'rxjs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { PeriodicElement } from '../../types/periodic-element.type';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { EditElementComponent } from '../../components/edit-element/edit-element.component';
 
 @Component({
   selector: 'app-elements-list',
   standalone: true,
-  imports: [MatCardModule, MatInputModule, MatTableModule, ReactiveFormsModule],
+  imports: [
+    MatButtonModule,
+    MatCardModule,
+    MatDialogModule,
+    MatIconModule,
+    MatInputModule,
+    MatTableModule,
+    ReactiveFormsModule,
+  ],
   templateUrl: './elements-list.component.html',
   styleUrl: './elements-list.component.scss',
 })
 export class ElementsListComponent implements OnInit {
   protected readonly filter = new FormControl<string>('');
+  dialogService = inject(MatDialog);
+  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  displayedColumns = ['position', 'name', 'weight', 'symbol', 'action'];
 
   ngOnInit(): void {
     this.filter.valueChanges.pipe(debounceTime(2000)).subscribe((value) => {
-      console.log(value);
+      this.dataSource.filter = value?.trim().toLowerCase() ?? '';
     });
   }
-  displayedColumns = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
+
+  openDialog(): void {
+    this.dialogService.open(EditElementComponent, {
+      data: {
+        element: this.dataSource.data[0],
+      },
+    });
+  }
 }
