@@ -1,3 +1,15 @@
-<mat-toolbar>
+<mat-toolbar class="layout-toolbar">
   <span>Periodic Table</span>
+  <button mat-mini-fab [matMenuTriggerFor]="menu">
+    <mat-icon>settings</mat-icon>
+  </button>
 </mat-toolbar>
+
+<mat-menu #menu>
+  <button mat-menu-item>
+    <mat-slide-toggle (click)="$event.stopPropagation()" labelPosition="before"
+      >Dark mode</mat-slide-toggle
+    >
+  </button>
+  <button mat-menu-item>Reset data</button>
+</mat-menu>
