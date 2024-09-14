@@ -40,6 +40,11 @@ export class ElementsListComponent implements OnInit {
     });
   }
 
+  deleteElement(index: number): void {
+    this.dataSource.data.splice(index, 1);
+    this.dataSource.connect().next(this.dataSource.data);
+  }
+
   openDialog(index: number): void {
     const dialogRef = this.dialogService.open(EditElementComponent, {
       data: {
