@@ -1,5 +1,10 @@
 <form (submit)="save()" class="edit-element-form" [formGroup]="elementForm">
   <mat-form-field>
+    <mat-label>Position</mat-label>
+    <input type="number" matInput formControlName="position" />
+  </mat-form-field>
+
+  <mat-form-field>
     <mat-label>Name</mat-label>
     <input matInput formControlName="name" />
   </mat-form-field>

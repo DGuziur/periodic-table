@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -7,7 +7,6 @@ import {
 } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { PeriodicElement } from '../../types/periodic-element.type';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -21,10 +20,7 @@ export class EditElementComponent implements OnInit {
   private readonly dialogRef = inject(MatDialogRef);
   private readonly elementData = inject(MAT_DIALOG_DATA);
   protected elementForm = new FormGroup({
-    position: new FormControl<number>(
-      this.elementData.element.position,
-      Validators.required
-    ),
+    position: new FormControl<number>(0, Validators.required),
     name: new FormControl<string>('', Validators.required),
     weight: new FormControl<number>(0, Validators.required),
     symbol: new FormControl<string>('', Validators.required),
