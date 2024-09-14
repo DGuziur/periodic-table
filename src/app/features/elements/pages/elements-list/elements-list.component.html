@@ -30,9 +30,13 @@
 
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef>Action</th>
-      <td class="list-action-row" mat-cell *matCellDef="let element">
+      <td
+        class="list-action-row"
+        mat-cell
+        *matCellDef="let element; let i = index"
+      >
         <div class="list-action-container">
-          <button mat-button (click)="openDialog()">Edit</button>
+          <button mat-button (click)="openDialog(i)">Edit</button>
           <button
             mat-mini-fab
             aria-label="Example icon button with a delete icon"

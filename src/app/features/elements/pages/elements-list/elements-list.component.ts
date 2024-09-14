@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ELEMENT_DATA } from '../../config/default-elements.config';
 import { FormControl } from '@angular/forms';
@@ -28,6 +28,7 @@ import { EditElementComponent } from '../../components/edit-element/edit-element
   styleUrl: './elements-list.component.scss',
 })
 export class ElementsListComponent implements OnInit {
+  private readonly changeDetector = inject(ChangeDetectorRef);
   protected readonly filter = new FormControl<string>('');
   dialogService = inject(MatDialog);
   dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
@@ -39,11 +40,18 @@ export class ElementsListComponent implements OnInit {
     });
   }
 
-  openDialog(): void {
-    this.dialogService.open(EditElementComponent, {
+  openDialog(index: number): void {
+    const dialogRef = this.dialogService.open(EditElementComponent, {
       data: {
-        element: this.dataSource.data[0],
+        element: this.dataSource.data[index],
       },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log(result);
+        this.dataSource.data[index] = result;
+        this.dataSource.connect().next(this.dataSource.data);
+      }
     });
   }
 }
