@@ -1,5 +1,4 @@
 .list-container {
-  width: fit-content;
   margin-left: auto;
   margin-right: auto;
 }
@@ -10,6 +9,11 @@
   grid-template-columns: repeat(2, 1fr);
 }
 
-.list-action-row {
-  padding-left: 0;
+.list-action-header {
+  text-align: center;
+}
+
+.list-table-container {
+  max-width: 100%;
+  overflow: auto;
 }

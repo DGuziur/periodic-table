@@ -48,7 +48,6 @@ export class ElementsListComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result);
         this.dataSource.data[index] = result;
         this.dataSource.connect().next(this.dataSource.data);
       }
