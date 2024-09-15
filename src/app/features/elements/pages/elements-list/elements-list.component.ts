@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ELEMENT_DATA } from '../../config/default-elements.config';
 import { FormControl } from '@angular/forms';
@@ -29,14 +36,37 @@ import { EditElementComponent } from '../../components/edit-element/edit-element
 })
 export class ElementsListComponent implements OnInit {
   private readonly changeDetector = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
   protected readonly filter = new FormControl<string>('');
-  dialogService = inject(MatDialog);
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  displayedColumns = ['position', 'name', 'weight', 'symbol', 'action'];
+  private readonly dialogService = inject(MatDialog);
+  protected dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  protected displayedColumns = [
+    'position',
+    'name',
+    'weight',
+    'symbol',
+    'action',
+  ];
 
   ngOnInit(): void {
-    this.filter.valueChanges.pipe(debounceTime(2000)).subscribe((value) => {
-      this.dataSource.filter = value?.trim().toLowerCase() ?? '';
+    this.filter.valueChanges
+      .pipe(debounceTime(2000), takeUntilDestroyed(this.destroyRef))
+      .subscribe((value) => {
+        this.dataSource.filter = value?.trim().toLowerCase() ?? '';
+      });
+  }
+
+  addElement(): void {
+    const dialogRef = this.dialogService.open(EditElementComponent, {
+      data: {
+        element: null,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.dataSource.data.push(result);
+        this.dataSource.connect().next(this.dataSource.data);
+      }
     });
   }
 
@@ -57,5 +87,11 @@ export class ElementsListComponent implements OnInit {
         this.dataSource.connect().next(this.dataSource.data);
       }
     });
+  }
+
+  resetData(): void {
+    console.log(ELEMENT_DATA);
+    this.dataSource.data = ELEMENT_DATA;
+    this.dataSource.connect().next(this.dataSource.data);
   }
 }

@@ -1,4 +1,4 @@
-<mat-card class="list-container">
+<mat-card>
   <mat-form-field>
     <mat-label>Filter</mat-label>
     <input
@@ -7,6 +7,12 @@
       placeholder="Search in all columns"
     />
   </mat-form-field>
+
+  <div class="list-action-container">
+    <button mat-raised-button (click)="addElement()">Add element</button>
+    <button mat-raised-button (click)="resetData()">Reset data</button>
+  </div>
+
   <div class="list-table-container">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="position">
@@ -39,7 +45,7 @@
             <button
               (click)="deleteElement(i)"
               mat-mini-fab
-              aria-label="Example icon button with a delete icon"
+              aria-label="Delete element"
             >
               <mat-icon>delete</mat-icon>
             </button>
