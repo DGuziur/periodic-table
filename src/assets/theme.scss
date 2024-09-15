@@ -1,7 +1,7 @@
 @use "@angular/material" as mat;
 @include mat.core();
 
-$dark-cyan: mat.define-theme(
+$dark-primary: mat.define-theme(
   (
     color: (
       theme-type: dark,
@@ -10,19 +10,28 @@ $dark-cyan: mat.define-theme(
   )
 );
 
-$light-cyan: mat.define-theme(
+$light-primary: mat.define-theme(
   (
     color: (
       theme-type: light,
-      primary: mat.$cyan-palette,
+      primary: mat.$chartreuse-palette,
     ),
   )
 );
 
-$light-orange: mat.define-theme(
+$light-accent: mat.define-theme(
   (
     color: (
       theme-type: light,
+      primary: mat.$orange-palette,
+    ),
+  )
+);
+
+$dark-accent: mat.define-theme(
+  (
+    color: (
+      theme-type: dark,
       primary: mat.$orange-palette,
     ),
   )
@@ -37,15 +46,6 @@ $light-danger: mat.define-theme(
   )
 );
 
-$dark-orange: mat.define-theme(
-  (
-    color: (
-      theme-type: dark,
-      primary: mat.$orange-palette,
-    ),
-  )
-);
-
 $dark-danger: mat.define-theme(
   (
     color: (
@@ -56,7 +56,8 @@ $dark-danger: mat.define-theme(
 );
 
 body {
-  @include mat.all-component-themes($light-orange);
+  @include mat.all-component-themes($light-primary);
+  @include mat.fab-color($light-accent);
 
   .danger {
     @include mat.all-component-colors($light-danger);
@@ -64,9 +65,9 @@ body {
 }
 
 .dark-theme {
-  @include mat.all-component-colors($dark-cyan);
-  @include mat.fab-color($dark-orange);
-  @include mat.slide-toggle-color($dark-orange);
+  @include mat.all-component-colors($dark-primary);
+  @include mat.fab-color($dark-accent);
+  @include mat.slide-toggle-color($dark-accent);
 
   .danger {
     @include mat.all-component-colors($dark-danger);
