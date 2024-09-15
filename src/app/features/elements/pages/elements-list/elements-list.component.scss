@@ -4,9 +4,10 @@
 }
 
 .list-action-container {
-  display: grid;
-  place-items: center;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
 }
 
 .list-action-header {
