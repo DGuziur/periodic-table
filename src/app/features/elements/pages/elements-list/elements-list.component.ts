@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { debounceTime, distinctUntilChanged, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Observable, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -20,6 +20,7 @@ import {
   loadElements,
 } from '../../state/elements.actions';
 import { selectAllElements } from '../../state/elements.selector';
+import { DISPLAYED_COLUMNS } from '../../config/displayed-columns.config';
 @Component({
   selector: 'app-elements-list',
   standalone: true,
@@ -42,18 +43,14 @@ export class ElementsListComponent implements OnInit {
   private readonly dialogService = inject(MatDialog);
   protected readonly filter = new FormControl<string>('');
   protected dataSource = new MatTableDataSource<PeriodicElement>([]);
-  protected elements$ = this.store.select(selectAllElements).pipe(
-    tap((elementsData: PeriodicElement[]) => {
-      this.dataSource.data = elementsData;
-    })
-  );
-  protected displayedColumns: string[] = [
-    'position',
-    'name',
-    'weight',
-    'symbol',
-    'action',
-  ];
+  protected displayedColumns: string[] = DISPLAYED_COLUMNS;
+  protected elements$: Observable<PeriodicElement[]> = this.store
+    .select(selectAllElements)
+    .pipe(
+      tap((elementsData: PeriodicElement[]) => {
+        this.dataSource.data = elementsData;
+      })
+    );
 
   ngOnInit(): void {
     this.store.dispatch(loadElements());
