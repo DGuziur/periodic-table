@@ -1,10 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  DestroyRef,
-  inject,
-  OnInit,
-} from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ELEMENT_DATA } from '../../config/default-elements.config';
@@ -35,11 +29,12 @@ import { EditElementComponent } from '../../components/edit-element/edit-element
   styleUrl: './elements-list.component.scss',
 })
 export class ElementsListComponent implements OnInit {
-  private readonly changeDetector = inject(ChangeDetectorRef);
   private readonly destroyRef = inject(DestroyRef);
-  protected readonly filter = new FormControl<string>('');
   private readonly dialogService = inject(MatDialog);
-  protected dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
+  protected readonly filter = new FormControl<string>('');
+  protected dataSource = new MatTableDataSource<PeriodicElement>([
+    ...ELEMENT_DATA,
+  ]);
   protected displayedColumns = [
     'position',
     'name',
@@ -90,8 +85,7 @@ export class ElementsListComponent implements OnInit {
   }
 
   resetData(): void {
-    console.log(ELEMENT_DATA);
-    this.dataSource.data = ELEMENT_DATA;
+    this.dataSource.data = [...ELEMENT_DATA];
     this.dataSource.connect().next(this.dataSource.data);
   }
 }
