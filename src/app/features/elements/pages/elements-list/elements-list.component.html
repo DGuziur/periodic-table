@@ -14,7 +14,7 @@
   </div>
 
   <div class="list-table-container">
-    @if ((elements$ | async); as dataSource) {
+    @if (elements$ | async) {
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="position">
         <th mat-header-cell *matHeaderCellDef>No.</th>
@@ -42,7 +42,7 @@
         </th>
         <td mat-cell *matCellDef="let element; let i = index">
           <div class="list-action-container">
-            <button mat-button (click)="openDialog(i)">Edit</button>
+            <button mat-button (click)="editElement(i)">Edit</button>
             <button
               (click)="deleteElement(i)"
               mat-mini-fab

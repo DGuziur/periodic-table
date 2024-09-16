@@ -6,7 +6,6 @@ import {
   editElement,
   loadElementsSuccess,
   loadElementsFailure,
-  resetData,
   loadElements,
 } from './elements.actions';
 
@@ -50,12 +49,7 @@ export const elementsReducer = createReducer<ElementsState>(
   })),
   on(editElement, (state, { index, element }) => ({
     ...state,
-    elements: [...state.elements, (state.elements[index] = element)],
-    status: 'success',
-  })),
-  on(resetData, (state) => ({
-    ...state,
-    elements: [],
+    elements: state.elements.map((e, i) => (i === index ? element : e)),
     status: 'success',
   }))
 );

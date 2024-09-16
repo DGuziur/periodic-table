@@ -27,5 +27,3 @@ export const editElement = createAction(
   '[Elements] Edit element',
   props<{ index: number; element: PeriodicElement }>()
 );
-
-export const resetData = createAction('[Elements] Reset data');

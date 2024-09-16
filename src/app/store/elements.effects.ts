@@ -18,12 +18,10 @@ export class ElementsEffects {
   private elementsService = inject(ElementsService);
 
   loadElements$ = createEffect(() => {
-    console.log('loadElements$');
     return this.actions$.pipe(
       ofType(loadElements),
       switchMap(() =>
         from(this.elementsService.getElements()).pipe(
-          tap((elements) => console.log(elements)),
           map((elements) => loadElementsSuccess({ elements })),
           catchError((error) => of(loadElementsFailure({ error })))
         )
