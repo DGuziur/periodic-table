@@ -1,11 +1,10 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { ELEMENT_DATA } from '../../config/default-elements.config';
 import { FormControl } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs';
-import { Store, StoreModule } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
@@ -20,10 +19,7 @@ import {
   editElement,
   loadElements,
 } from '../../state/elements.actions';
-import {
-  selectAllElements,
-  selectElements,
-} from '../../state/elements.selector';
+import { selectAllElements } from '../../state/elements.selector';
 @Component({
   selector: 'app-elements-list',
   standalone: true,

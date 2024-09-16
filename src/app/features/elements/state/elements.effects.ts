@@ -1,15 +1,11 @@
-import { Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
-  addElement,
-  deleteElement,
-  editElement,
   loadElements,
   loadElementsFailure,
   loadElementsSuccess,
 } from './elements.actions';
 import { inject, Injectable } from '@angular/core';
-import { catchError, from, map, of, switchMap, tap } from 'rxjs';
+import { catchError, from, map, of, switchMap } from 'rxjs';
 import { ElementsService } from '../services/elements.service';
 
 @Injectable()
