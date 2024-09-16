@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { PeriodicElement } from '../features/elements/types/periodic-element.type';
+import { PeriodicElement } from '../types/periodic-element.type';
 
 export const loadElements = createAction('[Elements] Load elements');
 

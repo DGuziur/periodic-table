@@ -10,7 +10,7 @@ import {
 } from './elements.actions';
 import { inject, Injectable } from '@angular/core';
 import { catchError, from, map, of, switchMap, tap } from 'rxjs';
-import { ElementsService } from '../features/elements/services/elements.service';
+import { ElementsService } from '../services/elements.service';
 
 @Injectable()
 export class ElementsEffects {

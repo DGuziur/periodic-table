@@ -19,11 +19,11 @@ import {
   deleteElement,
   editElement,
   loadElements,
-} from '../../../../store/elements.actions';
+} from '../../state/elements.actions';
 import {
   selectAllElements,
   selectElements,
-} from '../../../../store/elements.selector';
+} from '../../state/elements.selector';
 @Component({
   selector: 'app-elements-list',
   standalone: true,

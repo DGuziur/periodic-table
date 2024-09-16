@@ -5,8 +5,8 @@ import { routes } from './app.routes';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideStore, StoreModule } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
-import { elementsReducer } from './store/elements.reducer';
-import { ElementsEffects } from './store/elements.effects';
+import { elementsReducer } from './features/elements/state/elements.reducer';
+import { ElementsEffects } from './features/elements/state/elements.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
