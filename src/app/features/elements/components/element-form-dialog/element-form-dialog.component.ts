@@ -10,13 +10,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-edit-element',
+  selector: 'app-element-form-dialog',
   standalone: true,
   imports: [MatButtonModule, MatInputModule, ReactiveFormsModule],
-  templateUrl: './edit-element.component.html',
-  styleUrl: './edit-element.component.scss',
+  templateUrl: './element-form-dialog.component.html',
+  styleUrl: './element-form-dialog.component.scss',
 })
-export class EditElementComponent implements OnInit {
+export class ElementFormDialog implements OnInit {
   private readonly dialogRef = inject(MatDialogRef);
   private readonly elementData = inject(MAT_DIALOG_DATA);
   protected elementForm = new FormGroup({

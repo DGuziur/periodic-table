@@ -12,7 +12,7 @@ import { PeriodicElement } from '../../types/periodic-element.type';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { EditElementComponent } from '../../components/edit-element/edit-element.component';
+import { ElementFormDialog } from '../../components/element-form-dialog/element-form-dialog.component';
 import {
   addElement,
   deleteElement,
@@ -41,9 +41,9 @@ export class ElementsListComponent implements OnInit {
   private readonly store = inject(Store);
   private readonly destroyRef = inject(DestroyRef);
   private readonly dialogService = inject(MatDialog);
+  protected displayedColumns: string[] = DISPLAYED_COLUMNS;
   protected readonly filter = new FormControl<string>('');
   protected dataSource = new MatTableDataSource<PeriodicElement>([]);
-  protected displayedColumns: string[] = DISPLAYED_COLUMNS;
   protected elements$: Observable<PeriodicElement[]> = this.store
     .select(selectAllElements)
     .pipe(
@@ -67,7 +67,7 @@ export class ElementsListComponent implements OnInit {
   }
 
   addElement(): void {
-    const dialogRef = this.dialogService.open(EditElementComponent, {
+    const dialogRef = this.dialogService.open(ElementFormDialog, {
       data: {
         element: null,
       },
@@ -84,7 +84,7 @@ export class ElementsListComponent implements OnInit {
   }
 
   editElement(index: number): void {
-    const dialogRef = this.dialogService.open(EditElementComponent, {
+    const dialogRef = this.dialogService.open(ElementFormDialog, {
       data: {
         element: this.dataSource.data[index],
       },
