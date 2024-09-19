@@ -51,10 +51,9 @@ export class ElementsListComponent implements OnInit {
         this.dataSource.data = elementsData;
       })
     );
+  protected loadData = this.store.dispatch(loadElements());
 
   ngOnInit(): void {
-    this.store.dispatch(loadElements());
-
     this.filter.valueChanges
       .pipe(
         debounceTime(2000),
