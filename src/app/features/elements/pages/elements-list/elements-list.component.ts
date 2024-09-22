@@ -18,8 +18,8 @@ import {
   deleteElement,
   editElement,
   loadElements,
-} from '../../state/elements.actions';
-import { selectAllElements } from '../../state/elements.selector';
+} from '../../store/elements.actions';
+import { selectAllElements } from '../../store/elements.selector';
 import { DISPLAYED_COLUMNS } from '../../config/displayed-columns.config';
 @Component({
   selector: 'app-elements-list',
