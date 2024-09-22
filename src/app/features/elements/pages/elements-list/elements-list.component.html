@@ -9,8 +9,14 @@
   </mat-form-field>
 
   <div class="list-action-container">
-    <button mat-raised-button (click)="addElement()">Add element</button>
-    <button mat-raised-button (click)="restartListToDefault()">
+    <button aria-label="Add element" mat-raised-button (click)="addElement()">
+      Add element
+    </button>
+    <button
+      aria-label="Restart list to default"
+      mat-raised-button
+      (click)="restartListToDefault()"
+    >
       Reset data
     </button>
   </div>
@@ -20,7 +26,7 @@
     <table
       mat-table
       [dataSource]="dataSource"
-      [trackBy]="trackByFn"
+      [trackBy]="trackByIndex"
       class="mat-elevation-z8"
     >
       <ng-container matColumnDef="position">
@@ -49,11 +55,18 @@
         </th>
         <td mat-cell *matCellDef="let element; let i = index">
           <div class="list-action-container">
-            <button mat-button (click)="editElement(i)">Edit</button>
             <button
+              aria-label="Edit element"
+              (click)="editElement(i)"
+              mat-button
+            >
+              Edit
+            </button>
+
+            <button
+              aria-label="Delete element"
               (click)="deleteElement(i)"
               mat-mini-fab
-              aria-label="Delete element"
             >
               <mat-icon>delete</mat-icon>
             </button>

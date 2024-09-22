@@ -1,12 +1,12 @@
 <mat-toolbar class="layout-toolbar">
   <span>Periodic Table</span>
-  <button mat-mini-fab [matMenuTriggerFor]="menu">
+  <button aria-label="Settings" mat-mini-fab [matMenuTriggerFor]="menu">
     <mat-icon>settings</mat-icon>
   </button>
 </mat-toolbar>
 
 <mat-menu #menu>
-  <button mat-menu-item>
+  <button aria-label="Dark mode" mat-menu-item>
     <mat-slide-toggle (click)="toggleTheme($event)" labelPosition="before"
       >Dark mode</mat-slide-toggle
     >

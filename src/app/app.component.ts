@@ -7,7 +7,6 @@ import { BaseLayoutComponent } from './shared/layout/base-layout/base-layout.com
   standalone: true,
   imports: [RouterOutlet, BaseLayoutComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'Periodic Table';

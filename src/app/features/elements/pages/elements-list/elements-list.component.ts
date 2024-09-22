@@ -99,7 +99,7 @@ export class ElementsListComponent implements OnInit {
     this.store.dispatch(loadDefaultElements());
   }
 
-  protected trackByFn(index: number, element: PeriodicElement): number {
-    return element.position;
+  protected trackByIndex(index: number, element: PeriodicElement): number {
+    return index;
   }
 }
