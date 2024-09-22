@@ -17,8 +17,13 @@ import { MatCardModule } from '@angular/material/card';
 import { PeriodicElement } from '../../types/periodic-element.type';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { ElementFormDialog } from '../../components/element-form-dialog/element-form-dialog.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {
   addElement,
   deleteElement,
@@ -37,6 +42,7 @@ import { DISPLAYED_COLUMNS } from '../../config/displayed-columns.config';
     MatDialogModule,
     MatIconModule,
     MatInputModule,
+    MatProgressSpinnerModule,
     MatTableModule,
     ReactiveFormsModule,
   ],
@@ -54,6 +60,7 @@ export class ElementsListComponent {
   private readonly elements$: Observable<PeriodicElement[]> = this.store
     .select(selectAllElements)
     .pipe(
+      distinctUntilChanged(),
       tap((elementsData) => {
         this.dataSource.data = elementsData;
       })
@@ -74,13 +81,17 @@ export class ElementsListComponent {
 
   protected loadData = this.store.dispatch(loadDefaultElements());
 
-  addElement(): void {
+  private handleModal(
+    element: PeriodicElement | null
+  ): Observable<PeriodicElement | null> {
     const dialogRef = this.dialogService.open(ElementFormDialog, {
-      data: {
-        element: null,
-      },
+      data: { element: element },
     });
-    dialogRef.afterClosed().subscribe((result) => {
+    return dialogRef.afterClosed();
+  }
+
+  addElement(): void {
+    this.handleModal(null).subscribe((result) => {
       if (result) {
         this.store.dispatch(addElement({ element: result }));
       }
@@ -88,12 +99,7 @@ export class ElementsListComponent {
   }
 
   editElement(index: number): void {
-    const dialogRef = this.dialogService.open(ElementFormDialog, {
-      data: {
-        element: this.dataSource.data[index],
-      },
-    });
-    dialogRef.afterClosed().subscribe((result) => {
+    this.handleModal(this.dataSource.data[index]).subscribe((result) => {
       if (result) {
         this.store.dispatch(editElement({ index, element: result }));
       }
@@ -108,7 +114,7 @@ export class ElementsListComponent {
     this.store.dispatch(loadDefaultElements());
   }
 
-  protected trackByIndex(index: number, element: PeriodicElement): number {
+  trackByIndex(index: number, element: PeriodicElement): number {
     return index;
   }
 }
