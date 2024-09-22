@@ -95,7 +95,11 @@ export class ElementsListComponent implements OnInit {
     });
   }
 
-  resetData(): void {
+  restartListToDefault(): void {
     this.store.dispatch(loadDefaultElements());
+  }
+
+  protected trackByFn(index: number, element: PeriodicElement): number {
+    return element.position;
   }
 }
