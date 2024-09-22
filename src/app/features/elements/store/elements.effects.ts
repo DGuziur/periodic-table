@@ -1,6 +1,6 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
-  loadElements,
+  loadDefaultElements,
   loadElementsFailure,
   loadElementsSuccess,
 } from './elements.actions';
@@ -15,7 +15,7 @@ export class ElementsEffects {
 
   loadElements$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(loadElements),
+      ofType(loadDefaultElements),
       switchMap(() =>
         from(this.elementsService.getElements()).pipe(
           map((elements) => loadElementsSuccess({ elements })),

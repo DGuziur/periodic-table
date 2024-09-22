@@ -1,7 +1,9 @@
 import { createAction, props } from '@ngrx/store';
 import { PeriodicElement } from '../types/periodic-element.type';
 
-export const loadElements = createAction('[Elements] Load elements');
+export const loadDefaultElements = createAction(
+  '[Elements] Load default elements'
+);
 
 export const loadElementsSuccess = createAction(
   '[Elements] Load elements success',

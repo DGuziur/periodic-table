@@ -17,7 +17,7 @@ import {
   addElement,
   deleteElement,
   editElement,
-  loadElements,
+  loadDefaultElements,
 } from '../../store/elements.actions';
 import { selectAllElements } from '../../store/elements.selector';
 import { DISPLAYED_COLUMNS } from '../../config/displayed-columns.config';
@@ -51,7 +51,7 @@ export class ElementsListComponent implements OnInit {
         this.dataSource.data = elementsData;
       })
     );
-  protected loadData = this.store.dispatch(loadElements());
+  protected loadData = this.store.dispatch(loadDefaultElements());
 
   ngOnInit(): void {
     this.filter.valueChanges
@@ -96,6 +96,6 @@ export class ElementsListComponent implements OnInit {
   }
 
   resetData(): void {
-    this.store.dispatch(loadElements());
+    this.store.dispatch(loadDefaultElements());
   }
 }

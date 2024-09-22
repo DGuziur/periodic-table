@@ -6,7 +6,7 @@ import {
   editElement,
   loadElementsSuccess,
   loadElementsFailure,
-  loadElements,
+  loadDefaultElements,
 } from './elements.actions';
 
 export interface ElementsState {
@@ -23,7 +23,7 @@ export const initialState: ElementsState = {
 
 export const elementsReducer = createReducer<ElementsState>(
   initialState,
-  on(loadElements, (state) => ({
+  on(loadDefaultElements, (state) => ({
     ...state,
     status: 'loading',
   })),
