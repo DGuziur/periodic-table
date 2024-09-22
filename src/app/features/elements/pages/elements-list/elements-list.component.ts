@@ -1,9 +1,15 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, inject } from '@angular/core';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
-import { debounceTime, distinctUntilChanged, Observable, tap } from 'rxjs';
+import {
+  combineLatest,
+  debounceTime,
+  distinctUntilChanged,
+  Observable,
+  startWith,
+  tap,
+} from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -37,33 +43,36 @@ import { DISPLAYED_COLUMNS } from '../../config/displayed-columns.config';
   templateUrl: './elements-list.component.html',
   styleUrl: './elements-list.component.scss',
 })
-export class ElementsListComponent implements OnInit {
+export class ElementsListComponent {
   private readonly store = inject(Store);
-  private readonly destroyRef = inject(DestroyRef);
   private readonly dialogService = inject(MatDialog);
-  protected displayedColumns: string[] = DISPLAYED_COLUMNS;
+
+  protected readonly displayedColumns: string[] = DISPLAYED_COLUMNS;
   protected readonly filter = new FormControl<string>('');
   protected dataSource = new MatTableDataSource<PeriodicElement>([]);
-  protected elements$: Observable<PeriodicElement[]> = this.store
+
+  private readonly elements$: Observable<PeriodicElement[]> = this.store
     .select(selectAllElements)
     .pipe(
-      tap((elementsData: PeriodicElement[]) => {
+      tap((elementsData) => {
         this.dataSource.data = elementsData;
       })
     );
-  protected loadData = this.store.dispatch(loadDefaultElements());
 
-  ngOnInit(): void {
-    this.filter.valueChanges
-      .pipe(
-        debounceTime(2000),
-        distinctUntilChanged(),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe((value) => {
-        this.dataSource.filter = value?.trim().toLowerCase() ?? '';
-      });
-  }
+  private readonly filterChanges$ = this.filter.valueChanges.pipe(
+    debounceTime(2000),
+    distinctUntilChanged(),
+    tap((value) => {
+      this.dataSource.filter = value?.trim().toLowerCase() ?? '';
+    })
+  );
+
+  protected filteredDataSource$ = combineLatest([
+    this.elements$,
+    this.filterChanges$,
+  ]).pipe(startWith([this.elements$, '']));
+
+  protected loadData = this.store.dispatch(loadDefaultElements());
 
   addElement(): void {
     const dialogRef = this.dialogService.open(ElementFormDialog, {
@@ -78,10 +87,6 @@ export class ElementsListComponent implements OnInit {
     });
   }
 
-  deleteElement(index: number): void {
-    this.store.dispatch(deleteElement({ index }));
-  }
-
   editElement(index: number): void {
     const dialogRef = this.dialogService.open(ElementFormDialog, {
       data: {
@@ -93,6 +98,10 @@ export class ElementsListComponent implements OnInit {
         this.store.dispatch(editElement({ index, element: result }));
       }
     });
+  }
+
+  deleteElement(index: number): void {
+    this.store.dispatch(deleteElement({ index }));
   }
 
   restartListToDefault(): void {

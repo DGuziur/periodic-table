@@ -22,7 +22,7 @@
   </div>
 
   <div class="list-table-container">
-    @if (elements$ | async) {
+    @if (filteredDataSource$ | async) {
     <table
       mat-table
       [dataSource]="dataSource"
