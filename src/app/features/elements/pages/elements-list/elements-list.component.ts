@@ -17,11 +17,7 @@ import { MatCardModule } from '@angular/material/card';
 import { PeriodicElement } from '../../types/periodic-element.type';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import {
-  MatDialog,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ElementFormDialog } from '../../components/element-form-dialog/element-form-dialog.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {
@@ -30,6 +26,7 @@ import {
   editElement,
   loadDefaultElements,
 } from '../../store/elements.actions';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { selectAllElements } from '../../store/elements.selector';
 import { DISPLAYED_COLUMNS } from '../../config/displayed-columns.config';
 @Component({
@@ -44,6 +41,7 @@ import { DISPLAYED_COLUMNS } from '../../config/displayed-columns.config';
     MatInputModule,
     MatProgressSpinnerModule,
     MatTableModule,
+    MatTooltipModule,
     ReactiveFormsModule,
   ],
   templateUrl: './elements-list.component.html',
@@ -56,6 +54,7 @@ export class ElementsListComponent {
   protected readonly displayedColumns: string[] = DISPLAYED_COLUMNS;
   protected readonly filter = new FormControl<string>('');
   protected dataSource = new MatTableDataSource<PeriodicElement>([]);
+  private loadData = this.store.dispatch(loadDefaultElements());
 
   private readonly elements$: Observable<PeriodicElement[]> = this.store
     .select(selectAllElements)
@@ -66,20 +65,19 @@ export class ElementsListComponent {
       })
     );
 
-  private readonly filterChanges$ = this.filter.valueChanges.pipe(
-    debounceTime(2000),
-    distinctUntilChanged(),
-    tap((value) => {
-      this.dataSource.filter = value?.trim().toLowerCase() ?? '';
-    })
-  );
+  private readonly filterChanges$: Observable<string | null> =
+    this.filter.valueChanges.pipe(
+      debounceTime(2000),
+      distinctUntilChanged(),
+      tap((value) => {
+        this.dataSource.filter = value?.trim().toLowerCase() ?? '';
+      })
+    );
 
   protected filteredDataSource$ = combineLatest([
     this.elements$,
     this.filterChanges$,
   ]).pipe(startWith([this.elements$, '']));
-
-  protected loadData = this.store.dispatch(loadDefaultElements());
 
   private handleModal(
     element: PeriodicElement | null
